@@ -1,0 +1,6 @@
+mockup/*.js
+node_modules
+dist
+cache
+index.html
+*.svg.vue
