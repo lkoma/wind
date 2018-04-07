@@ -1,7 +1,7 @@
 <template>
    <aside class="sidebar" :style="{'min-height': height + 'px'}">
         <el-menu
-            default-active="2"
+            default-active="/"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
@@ -9,44 +9,39 @@
             text-color="#fff"
             unique-opened="true"
             active-text-color="#ffd04b">
-            <el-submenu index="1">
-                <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>导航一</span>
-                </template>
-                <el-menu-item-group>
-                    <el-menu-item index="1-1">选项1</el-menu-item>
-                    <el-menu-item index="1-2">选项2</el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
-            <el-submenu index="2">
-                <template slot="title">
-                    <i class="el-icon-menu"></i>
-                    <span>导航二</span>
-                </template>
-                <el-menu-item-group>
-                    <el-menu-item index="2-1">路由1</el-menu-item>
-                    <el-menu-item index="2-2">路由2</el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
-            <el-menu-item index="3">
-                <i class="el-icon-document"></i>
-                <span slot="title">导航三</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-                <i class="el-icon-setting"></i>
-                <span slot="title">设置</span>
-            </el-menu-item>
+            <template v-for="submenu in menu">
+                <el-submenu :index="submenu.menuItem" v-if="submenu.children">
+                    <template slot="title">
+                        <i :class="submenu.icon"></i>
+                        <span>{{submenu.menuItem}}</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item
+                            :index="menuItem.router"
+                            v-for="menuItem in submenu.children"
+                            :key="submenu.menuItem"
+                            @click="open(menuItem.router)">
+                            {{menuItem.menuItem}}
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-menu-item :index="submenu.router" v-else @click="open(submenu.router)">
+                    <i :class="submenu.icon"></i>
+                    <span slot="title">{{submenu.menuItem}}</span>
+                </el-menu-item>
+            </template>
         </el-menu>
    </aside>
 </template>
 
 <script>
+import config from 'src/homepage/config';
 
 export default {
     data() {
         return {
-            height: 0
+            height: 0,
+            menu: config.menu
         };
     },
     created() {
@@ -56,6 +51,9 @@ export default {
     methods: {
         resize() {
             this.height = document.documentElement.offsetHeight - 50;
+        },
+        open(item) {
+            this.$router.push(item);
         }
     }
 };

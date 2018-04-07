@@ -5,17 +5,22 @@
        </header>
        <side-bar></side-bar>
        <main class="main">
-           hahaha
+           <tab></tab>
+           <transition name="fade" mode="out-in">
+                <router-view></router-view>
+           </transition>
        </main>
    </div>
 </template>
 
 <script>
 import SideBar from 'homepage/components/SideBar';
+import Tab from 'homepage/components/Tab';
 
 export default {
     components: {
-        SideBar
+        SideBar,
+        Tab
     },
     data() {
         return {
@@ -28,6 +33,10 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
+.fade-enter-active, .fade-leave-active
+    transition opacity .3s
+.fade-enter, .fade-leave-to
+    opacity 0
 .homepage
     height 100%
     .header
