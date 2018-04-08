@@ -5,9 +5,11 @@
        </header>
        <side-bar></side-bar>
        <main class="main">
-           <tab></tab>
+            <tab></tab>
            <transition name="fade" mode="out-in">
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
            </transition>
        </main>
    </div>

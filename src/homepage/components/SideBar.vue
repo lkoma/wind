@@ -1,7 +1,7 @@
 <template>
    <aside class="sidebar" :style="{'min-height': height + 'px'}">
         <el-menu
-            default-active="/"
+            :default-active="defaultActive"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
@@ -41,12 +41,14 @@ export default {
     data() {
         return {
             height: 0,
-            menu: config.menu
+            menu: config.menu,
+            defaultActive: '/'
         };
     },
     created() {
         this.resize();
         window.addEventListener('resize', this.resize);
+        this.defaultActive = this.$route.path;
     },
     methods: {
         resize() {
